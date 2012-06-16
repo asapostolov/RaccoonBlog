@@ -77,7 +77,7 @@ namespace RaccoonBlog.IntegrationTests.Routing
 		[Fact]
 		public void Css()
 		{
-			"~/css".ShouldMapTo<CssController>(c => c.Merge(null));
+			"~/css".ShouldMapTo<CssController>(c => c.Merge(null,"less"));
 		}
 
 		[Fact]

@@ -60,7 +60,15 @@
 				@Html.TextBoxFor(model => model.CustomCss)
 				@Html.ValidationMessageFor(model => model.CustomCss)
 			</div>
-	
+			
+			<div class="editor-label">
+				@Html.LabelFor( model => model.UseTwitterBaseStyle )
+			</div>
+			<div class="editor-field">
+				@Html.CheckBoxFor( model => model.UseTwitterBaseStyle )
+				@Html.ValidationMessageFor( model => model.UseTwitterBaseStyle )
+			</div>
+
 			<div class="editor-label">
 				@Html.LabelFor(model => model.Copyright)
 			</div>

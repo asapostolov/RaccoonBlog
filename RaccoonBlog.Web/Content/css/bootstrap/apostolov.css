@@ -1,0 +1,115 @@
+﻿body
+    {
+      font-family: 'Open Sans', serif;
+    }
+    a{
+      color: #000;
+      font-weight:bold;
+    }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+      font-family: 'Open Sans', serif;
+      font-weight: normal;
+    }
+
+    h1, h2
+    {
+      font-weight: normal;
+    }
+
+      .section
+      {
+        margin: 10px 0;
+      }
+      .section h1
+      {
+        font-size:12pt;
+        font-weight:bold;
+        border-bottom: 1px Solid #ebebeb;
+
+      }
+      r.large {
+        border: none;
+        height: 8px;
+        background: #ebebeb;
+        margin: 50px 0; }
+
+    article p {
+          font-size: 12pt;
+        }
+    article
+    {
+      margin-bottom: 25px;
+    }
+
+    #headermain{
+        
+      margin-bottom:15px;
+        
+    }
+    #headermain a {
+      text-decoration: none;
+      color: #000;
+      font-weight:normal;
+
+    }
+    
+    #headermain h1{
+        font-size:28pt;
+    }
+    #headermain h2{
+        font-size:16pt;
+    }
+
+    .header 
+        {
+      margin-bottom: 40px;
+    }
+
+    .tags
+    {
+      font-size: 12pt;
+      margin:20px 5px;
+      display:table;
+    }
+    .tags:after{
+        clear:both;
+    }
+    .tags ul
+    {
+      display:inline;
+    }
+    .tags li{
+        display:inline;
+        list-style:none;
+        margin:5px;
+        padding:5px;
+    }
+    
+    .tags li a {
+      text-decoration:none;
+      font-weight: bold;
+      color:#808080;
+    }
+    .tags li a:hover
+    {
+      color:#000000;
+    }
+    .clr p
+    {
+      font-size: 10pt;
+      display: inline;
+      margin: 0 10px;
+
+    }
+
+    .postSummery header{
+        
+        padding-bottom:15px;
+        margin-bottom:10px;
+        border-bottom: 1px solid #808080;
+
+    }

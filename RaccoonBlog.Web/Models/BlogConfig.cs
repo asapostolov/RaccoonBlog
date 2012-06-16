@@ -21,6 +21,9 @@ namespace RaccoonBlog.Web.Models
 		[Display(Name = "Custom CSS")]
 		public string CustomCss { get; set; }
 
+		[Display( Name = "Use Twitter Bootstrap base style" )]
+		public bool UseTwitterBaseStyle { get; set; }
+
 		[Display(Name = "Copyright string")]
 		public string Copyright { get; set; }
 
@@ -46,6 +49,8 @@ namespace RaccoonBlog.Web.Models
 
 		[Display(Name = "NumberOfDayToCloseComments")]
 		public int NumberOfDayToCloseComments { get; set; }
+
+		
 
 		public static BlogConfig New()
 		{
