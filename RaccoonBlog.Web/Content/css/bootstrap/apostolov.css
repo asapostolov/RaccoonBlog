@@ -141,6 +141,7 @@ a.openid_large_btn:focus {
 
     }
     
+    
     #headermain h1{
         font-size:28pt;
     }
@@ -182,6 +183,20 @@ a.openid_large_btn:focus {
     {
       color:#000000;
     }
+    
+    .postSummery header, .post-detalis header{
+        
+        padding-bottom:15px;
+        margin-bottom:10px;
+        border-bottom: 1px solid #808080;
+
+    }
+    
+    .postSummery h1 a:hover,.post-detalis h1 a:hover
+    {
+        text-decoration:none;
+    }
+    
     .published, .created, .comment-count
     {
       font-size: 11pt;
@@ -230,6 +245,7 @@ a.openid_large_btn:focus {
         display:inline;
         font-weight:bold;
         font-size:10pt;
+        border-bottom: 0px;
     }
     
     .avatar
@@ -242,10 +258,3 @@ a.openid_large_btn:focus {
         font-size:11pt;
     }
     
-    .postSummery header{
-        
-        padding-bottom:15px;
-        margin-bottom:10px;
-        border-bottom: 1px solid #808080;
-
-    }
