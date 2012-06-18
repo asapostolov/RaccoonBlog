@@ -24,6 +24,7 @@
 					@Html.EditorFor(config => config.MetaDescription)
 					@Html.EditorFor(config => config.Copyright)
 					@Html.EditorFor(config => config.CustomCss)
+                    @Html.EditorFor(config=>config.UseTwitterBaseStyle)
 
 					@Html.EditorFor(config => config.AkismetKey)
 					@Html.EditorFor(config => config.GoogleAnalyticsKey)
@@ -32,6 +33,7 @@
 
 					@Html.EditorFor(config => config.MinNumberOfPostForSignificantTag)
 					@Html.EditorFor(config => config.NumberOfDayToCloseComments)
+
 					
 					@Html.EditorFor(config => config.Id)
 					<div><input type="submit" value="Save" /></div>

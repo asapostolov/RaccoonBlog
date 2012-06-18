@@ -28,6 +28,8 @@ namespace RaccoonBlog.Web.Areas.Admin.Controllers
 			ViewBag.Message = "Configurations successfully saved!";
 			if (Request.IsAjaxRequest())
 				return Json(new { Success = true, ViewBag.Message });
+
+            RavenSession.SaveChanges();
 			return View(config);
 		}
 	}
