@@ -258,3 +258,15 @@ a.openid_large_btn:focus {
         font-size:11pt;
     }
     
+    .form_item_name
+    {
+        width: 120px;
+        display:block;
+        float:left;
+    }
+    
+    #Input_Body
+    {
+        width:280px;
+        height:200px;
+    }
