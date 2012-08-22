@@ -30,3 +30,5 @@ Thumbs.db
 */connString.config
 Logs/
 packages/
+PublishProfiles/
+Web.Production.config

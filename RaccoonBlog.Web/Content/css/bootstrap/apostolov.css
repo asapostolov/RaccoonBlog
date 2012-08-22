@@ -1,272 +1,305 @@
 ﻿
 
-body
-    {
-      font-family: 'Open Sans', serif;
-    }
-    
-    
-    
-.openid-wrapper {
-	float: right;
+body {
+    font-family: 'Open Sans', serif;
 }
+
+
+
+.openid-wrapper {
+    float: right;
+}
+
 #openid {
-  background: url(/Content/css/images/indicator.gif) center center no-repeat;
-  margin: 0 auto;
-  width: 440px;
-  height: 162px;
+    background: url(/Content/css/images/indicator.gif) center center no-repeat;
+    margin: 0 auto;
+    width: 440px;
+    height: 162px;
 }
 
 #openid_inputarea {
-  clear: both;
-  display: none;
-  background: url(/Content/css/images/balloon.png) no-repeat;
-  width: 410px;
-  height: 48px;
-  color: white;
-  text-align: center;
-  margin-top: 35px;
-  padding-top: 17px;
+    clear: both;
+    display: none;
+    background: url(/Content/css/images/balloon.png) no-repeat;
+    width: 410px;
+    height: 48px;
+    color: white;
+    text-align: center;
+    margin-top: 35px;
+    padding-top: 17px;
 }
 
-#openid_inputarea #openid_username {
-  margin: 0 4px 0 8px;
-  width: 120px;
-}
+    #openid_inputarea #openid_username {
+        margin: 0 4px 0 8px;
+        width: 120px;
+    }
 
 #openid_btns, #openid_btns br {
-  clear: both;
+    clear: both;
 }
 
 #openid_highlight {
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
-  padding: 2px;
-  background-color: #FFFCC9;
-  float: left;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    padding: 2px;
+    background-color: #FFFCC9;
+    float: left;
 }
 
 .openid_large_btn, .openid_small_btn {
-  background: url(/Content/css/images/openid-icons.png) no-repeat;
-  margin: 3px;
-  float: left;
+    background: url(/Content/css/images/openid-icons.png) no-repeat;
+    margin: 3px;
+    float: left;
 }
 
 .openid_large_btn {
-  width: 91px;
-  height: 51px;
+    width: 91px;
+    height: 51px;
 }
 
 .openid_small_btn {
-  width: 16px;
-  height: 16px;
-}  
-
-.Google { background-position: 0 0; }
-.Yahoo { background-position: 0 -51px; }
-.AOL { background-position: 0 -102px; }
-.OpenID { background-position: 0 -153px; }
-.MyOpenID { background-position: 0 -204px; }
-.Flickr { background-position: 0 -220px; }
-.Technorati { background-position: -17px -220px; }
-.Wordpress { background-position: -17px -204px; }
-.Blogger { background-position: -34px -204px; }
-.Verisign { background-position: -51px -220px; }
-.Vidoop { background-position: -34px -220px; }
-.ClaimID { background-position: -68px -204px; }
-.LiveJournal { background-position: -51px -204px; }
-.MySpace { background-position: -68px -220px; }
-
-a.openid_large_btn:focus {
-  outline: none;
-  -moz-outline-style: none;
+    width: 16px;
+    height: 16px;
 }
 
-    
-    
-    
-    
-    a{
-      color: #000;
-      font-weight:bold;
-    }
-      .sidebar-nav {
-        padding: 9px 0;
-      }
+.Google {
+    background-position: 0 0;
+}
 
-      h1, h2, h3, h4, h5, h6 {
-      font-family: 'Open Sans', serif;
-      font-weight: normal;
-    }
+.Yahoo {
+    background-position: 0 -51px;
+}
 
-    h1, h2
-    {
-      font-weight: normal;
-    }
+.AOL {
+    background-position: 0 -102px;
+}
 
-      .section
-      {
-        margin: 10px 0;
-      }
-      .section h1
-      {
-        font-size:12pt;
-        font-weight:bold;
+.OpenID {
+    background-position: 0 -153px;
+}
+
+.MyOpenID {
+    background-position: 0 -204px;
+}
+
+.Flickr {
+    background-position: 0 -220px;
+}
+
+.Technorati {
+    background-position: -17px -220px;
+}
+
+.Wordpress {
+    background-position: -17px -204px;
+}
+
+.Blogger {
+    background-position: -34px -204px;
+}
+
+.Verisign {
+    background-position: -51px -220px;
+}
+
+.Vidoop {
+    background-position: -34px -220px;
+}
+
+.ClaimID {
+    background-position: -68px -204px;
+}
+
+.LiveJournal {
+    background-position: -51px -204px;
+}
+
+.MySpace {
+    background-position: -68px -220px;
+}
+
+a.openid_large_btn:focus {
+    outline: none;
+    -moz-outline-style: none;
+}
+
+
+
+
+
+a {
+    color: #000;
+    font-weight: bold;
+}
+
+.sidebar-nav {
+    padding: 9px 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Open Sans', serif;
+    font-weight: normal;
+}
+
+h1, h2 {
+    font-weight: normal;
+    font-size: 20pt;
+}
+
+.section {
+    margin: 10px 0;
+}
+
+    .section h1 {
+        font-size: 12pt;
+        font-weight: bold;
         border-bottom: 1px Solid #ebebeb;
+    }
 
-      }
-      r.large {
-        border: none;
-        height: 8px;
-        background: #ebebeb;
-        margin: 50px 0; }
+r.large {
+    border: none;
+    height: 8px;
+    background: #ebebeb;
+    margin: 50px 0;
+}
+
+article {
+    margin-bottom: 25px;
+}
+
+    article li {
+        font-size: 12pt;
+        line-height: 1.5;
+    }
 
     article p {
-          font-size: 12pt;
-        }
-    article
-    {
-      margin-bottom: 25px;
+        font-size: 12pt;
+        line-height: 1.5;
     }
 
-    #headermain{
-        
-      margin-bottom:15px;
-        
-    }
+#headermain {
+    margin-bottom: 15px;
+}
+
     #headermain a {
-      text-decoration: none;
-      color: #000;
-      font-weight:normal;
-
-    }
-    
-    
-    #headermain h1{
-        font-size:28pt;
-    }
-    #headermain h2{
-        font-size:16pt;
+        text-decoration: none;
+        color: #000;
+        font-weight: normal;
     }
 
-    .header 
-        {
-      margin-bottom: 40px;
+
+    #headermain h1 {
+        font-size: 28pt;
     }
 
-    .tags
-    {
-      font-size: 12pt;
-      margin:20px 5px 10px 0px;
-      display:table;
-    }
-    .tags:after{
-        clear:both;
-    }
-    .tags ul
-    {
-      display:inline;
-    }
-    .tags li{
-        display:inline;
-        list-style:none;
-        margin:5px;
-        padding:5px;
-    }
-    
-    .tags li a {
-      text-decoration:none;
-      font-weight: bold;
-      color:#808080;
-    }
-    .tags li a:hover
-    {
-      color:#000000;
-    }
-    
-    .postSummery header, .post-detalis header{
-        
-        padding-bottom:15px;
-        margin-bottom:10px;
-        border-bottom: 1px solid #808080;
-
-    }
-    
-    .postSummery h1 a:hover,.post-detalis h1 a:hover
-    {
-        text-decoration:none;
-    }
-    
-    .published, .created, .comment-count
-    {
-      font-size: 11pt;
-      display: inline;
-      margin: 0 10px;
-
+    #headermain h2 {
+        font-size: 16pt;
     }
 
-    .author
-    {
-      font-size: 11pt;
-      margin: 0 10px;
+.header {
+    margin-bottom: 40px;
+}
 
+.tags {
+    font-size: 12pt;
+    margin: 20px 5px 10px 0px;
+    display: table;
+}
+
+    .tags:after {
+        clear: both;
     }
-    
-    .share
-    {
-        margin:15px 0px;
+
+    .tags ul {
+        display: inline;
     }
-    
-    .comments header
-    {
-        margin:12px 0px;
+
+    .tags li {
+        display: inline;
+        list-style: none;
+        margin: 5px;
+        padding: 5px;
     }
-    
-    .comments h1
-    {
-        font-size:16pt;
-    }
-    
-    .important
-    {
-        
-        background:#DCDCDC;
-    }
-    
-    .comment
-    {
-        padding:10px 10px;
-        border: 2px solid Grey;
-        border-radius: 5px;
-    }
-    
-    .comment header, .comment address
-    {
-        display:inline;
-        font-weight:bold;
-        font-size:10pt;
+
+        .tags li a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #808080;
+        }
+
+            .tags li a:hover {
+                color: #000000;
+            }
+
+.postSummery header, .post-detalis header {
+    padding-bottom: 15px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #808080;
+}
+
+.postSummery h1 a:hover, .post-detalis h1 a:hover {
+    text-decoration: none;
+}
+
+.published, .created, .comment-count {
+    font-size: 11pt;
+    display: inline;
+    margin: 0 10px;
+}
+
+.author {
+    font-size: 11pt;
+    margin: 0 10px;
+}
+
+.share {
+    margin: 15px 0px;
+}
+
+.comments header {
+    margin: 12px 0px;
+}
+
+.comments h1 {
+    font-size: 16pt;
+}
+
+.important {
+    background: #DCDCDC;
+}
+
+.comment {
+    padding: 10px 10px;
+    border: 2px solid Grey;
+    border-radius: 5px;
+}
+
+    .comment header, .comment address {
+        display: inline;
+        font-weight: bold;
+        font-size: 10pt;
         border-bottom: 0px;
     }
-    
-    .avatar
-    {
-        float:left;
-    }
-    
-    .comment-body p
-    {
-        font-size:11pt;
-    }
-    
-    .form_item_name
-    {
-        width: 120px;
-        display:block;
-        float:left;
-    }
-    
-    #Input_Body
-    {
-        width:280px;
-        height:200px;
-    }
+
+.avatar {
+    float: left;
+}
+
+.comment-body p {
+    font-size: 11pt;
+}
+
+.form_item_name {
+    width: 120px;
+    display: block;
+    float: left;
+}
+
+#Input_Body {
+    width: 280px;
+    height: 200px;
+}
+
+#logoarea {
+    margin-top: 30px;
+}
