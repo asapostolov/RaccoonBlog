@@ -4,6 +4,7 @@ using System.Linq;
 using System.Xml.Linq;
 using RaccoonBlog.Web.Infrastructure.AutoMapper.Profiles.Resolvers;
 using RaccoonBlog.Web.Models;
+using Raven.Client;
 using Raven.Client.Linq;
 using RaccoonBlog.Web.Infrastructure.Common;
 using RaccoonBlog.Web.Helpers;
@@ -40,7 +41,7 @@ namespace RaccoonBlog.Web.Controllers
 		{
 			RavenQueryStatistics stats;
 			var postsQuery = RavenSession.Query<Post>()
-				.Statistics(out stats);
+										 .Statistics( out stats );
 
 			if (key != Guid.Empty && key == BlogConfig.RssFuturePostsKey)
 			{

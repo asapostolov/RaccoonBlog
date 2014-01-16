@@ -276,7 +276,7 @@ namespace RaccoonBlog.Web.Areas.Admin.Controllers
 				             	          }
 				             });
 
-			RavenSession.Advanced.DatabaseCommands.Batch(patchCommands);
+			RavenSession.Advanced.DocumentStore.DatabaseCommands.Batch(patchCommands);
 
 			return View();
 		}
