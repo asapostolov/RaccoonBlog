@@ -24,16 +24,18 @@ namespace RaccoonBlog.Web.Helpers
 			tag.Attributes["href"] = "http://twitter.com/share";
 			tag.Attributes["data-count"] = dataCount.ToString();
 
-			if (string.IsNullOrEmpty(author.TwitterNick) == false)
-				tag.Attributes["data-via"] = author.TwitterNick;
+			if (string.IsNullOrEmpty(author.TwitterNick) == false) {
+                tag.Attributes["data-via"] = author.TwitterNick;
+            }
 
-			if (string.IsNullOrEmpty(author.RelatedTwitterNick) == false)
+            if (string.IsNullOrEmpty(author.RelatedTwitterNick) == false)
 			{
-				if (string.IsNullOrEmpty(author.RelatedTwitNickDes) == false)
-					tag.Attributes["data-related"] = author.RelatedTwitterNick + ":" + author.RelatedTwitNickDes;
-				else
-					tag.Attributes["data-related"] = author.RelatedTwitterNick;
-			}
+				if (string.IsNullOrEmpty(author.RelatedTwitNickDes) == false) {
+                    tag.Attributes["data-related"] = author.RelatedTwitterNick + ":" + author.RelatedTwitNickDes;
+                } else {
+                    tag.Attributes["data-related"] = author.RelatedTwitterNick;
+                }
+            }
 
 			if (string.IsNullOrEmpty(url) == false)
 			{
@@ -42,10 +44,11 @@ namespace RaccoonBlog.Web.Helpers
 			}
 
 
-			if (string.IsNullOrEmpty(title) == false)
-				tag.Attributes["data-text"] = title;
+			if (string.IsNullOrEmpty(title) == false) {
+                tag.Attributes["data-text"] = title;
+            }
 
-			tag.InnerHtml = content;
+            tag.InnerHtml = content;
 
 			return MvcHtmlString.Create(tag.ToString(TagRenderMode.Normal));
 		}

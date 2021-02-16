@@ -77,12 +77,13 @@ namespace RaccoonBlog.Web.Services
 				var postToEdit = session
 					.Include<Models.Post>(x => x.CommentsId)
 					.Load(postid);
-				if (postToEdit == null)
-					throw new XmlRpcFaultException(0, "Post does not exists");
+				if (postToEdit == null) {
+                    throw new XmlRpcFaultException(0, "Post does not exists");
+                }
 
-				if (string.IsNullOrEmpty(postToEdit.AuthorId))
-					postToEdit.AuthorId = user.Id;
-				else
+                if (string.IsNullOrEmpty(postToEdit.AuthorId)) {
+                    postToEdit.AuthorId = user.Id;
+                } else
 				{
 					postToEdit.LastEditedByUserId = user.Id;
 					postToEdit.LastEditedAt = DateTimeOffset.Now;
@@ -193,9 +194,11 @@ namespace RaccoonBlog.Web.Services
 
 			imagePhysicalPath = Path.Combine(imagePhysicalPath, mediaObject.name);
 			var directoryPath = Path.GetDirectoryName(imagePhysicalPath).Replace("/", "\\");
-			if (!Directory.Exists(directoryPath))
-				Directory.CreateDirectory(directoryPath);
-			File.WriteAllBytes(imagePhysicalPath, mediaObject.bits);
+			if (!Directory.Exists(directoryPath)) {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            File.WriteAllBytes(imagePhysicalPath, mediaObject.bits);
 
 
 			return new MediaObjectInfo()
@@ -268,11 +271,15 @@ namespace RaccoonBlog.Web.Services
 				user = session.GetUserByEmail(username);
 			}
 
-			if (user == null || user.ValidatePassword(password) == false)
-				throw new XmlRpcFaultException(0, "User is not valid!");
-			if (user.Enabled == false)
-				throw new XmlRpcFaultException(0, "User is not enabled!");
-			return user;
+			if (user == null || user.ValidatePassword(password) == false) {
+                throw new XmlRpcFaultException(0, "User is not valid!");
+            }
+
+            if (user.Enabled == false) {
+                throw new XmlRpcFaultException(0, "User is not enabled!");
+            }
+
+            return user;
 		}
 
 		#endregion

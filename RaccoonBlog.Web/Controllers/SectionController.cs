@@ -8,6 +8,7 @@ using RaccoonBlog.Web.Models;
 using RaccoonBlog.Web.ViewModels;
 using Raven.Client;
 using RaccoonBlog.Web.Infrastructure.Common;
+using Raven.Client.Documents.Session;
 
 namespace RaccoonBlog.Web.Controllers
 {
@@ -16,7 +17,7 @@ namespace RaccoonBlog.Web.Controllers
 		[ChildActionOnly]
 		public ActionResult FuturePosts()
 		{
-			RavenQueryStatistics stats;
+			QueryStatistics stats;
 			var futurePosts = RavenSession.Query<Post>()
 				.Statistics(out stats)
 				.Where(x => x.PublishAt > DateTimeOffset.Now.AsMinutes() && x.IsDeleted == false)
@@ -44,10 +45,11 @@ namespace RaccoonBlog.Web.Controllers
 		[ChildActionOnly]
 		public ActionResult List()
 		{
-			if (true.Equals(HttpContext.Items["CurrentlyProcessingException"]))
-				return View(new SectionDetails[0]);
+			if (true.Equals(HttpContext.Items["CurrentlyProcessingException"])) {
+                return View(new SectionDetails[0]);
+            }
 
-			var sections = RavenSession.Query<Section>()
+            var sections = RavenSession.Query<Section>()
 				.Where(s => s.IsActive)
 				.OrderBy(x => x.Position)
 				.ToList();

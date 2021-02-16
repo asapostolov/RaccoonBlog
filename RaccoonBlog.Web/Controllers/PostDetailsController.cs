@@ -15,20 +15,22 @@ namespace RaccoonBlog.Web.Controllers
 {
 	public class PostDetailsController : RaccoonController
 	{
-		public ActionResult Details(int id, string slug, Guid key)
+		public ActionResult Details(string id, string slug, Guid key)
 		{
 			var post = RavenSession
 				.Include<Post>(x => x.CommentsId)
 				.Include(x => x.AuthorId)
-				.Load(id);
+				.Load(id.PostId());
 
-			if (post == null)
-				return HttpNotFound();
+			if (post == null) {
+                return HttpNotFound();
+            }
 
-			if (post.IsPublicPost(key) == false)
-				return HttpNotFound();
+            if (post.IsPublicPost(key) == false) {
+                return HttpNotFound();
+            }
 
-			var comments = RavenSession.Load<PostComments>(post.CommentsId) ?? new PostComments();
+            var comments = RavenSession.Load<PostComments>(post.CommentsId) ?? new PostComments();
 			var vm = new PostViewModel
 			         {
 			         	Post = post.MapTo<PostViewModel.PostDetails>(),
@@ -42,30 +44,33 @@ namespace RaccoonBlog.Web.Controllers
 
 			vm.Post.Author = RavenSession.Load<User>(post.AuthorId).MapTo<PostViewModel.UserDetails>();
 
-			if (vm.Post.Slug != slug)
-				return RedirectToActionPermanent("Details", new {id, vm.Post.Slug});
+			if (vm.Post.Slug != slug) {
+                return RedirectToActionPermanent("Details", new {id, vm.Post.Slug});
+            }
 
-			SetWhateverUserIsTrustedCommenter(vm);
+            SetWhateverUserIsTrustedCommenter(vm);
 
 			return View("Details", vm);
 		}
 
 		[ValidateInput(false)]
 		[HttpPost]
-		public ActionResult Comment(CommentInput input, int id, Guid showPostEvenIfPrivate)
+		public ActionResult Comment(CommentInput input, string id, Guid showPostEvenIfPrivate)
 		{
 			var post = RavenSession
 				.Include<Post>(x => x.CommentsId)
 				.Load(id);
 
-			if (post == null || post.IsPublicPost(showPostEvenIfPrivate) == false)
-				return HttpNotFound();
+			if (post == null || post.IsPublicPost(showPostEvenIfPrivate) == false) {
+                return HttpNotFound();
+            }
 
-			var comments = RavenSession.Load<PostComments>(post.CommentsId);
-			if (comments == null)
-				return HttpNotFound();
+            var comments = RavenSession.Load<PostComments>(post.CommentsId);
+			if (comments == null) {
+                return HttpNotFound();
+            }
 
-			var commenter = RavenSession.GetCommenter(input.CommenterKey);
+            var commenter = RavenSession.GetCommenter(input.CommenterKey);
 			if (commenter == null)
 			{
 				input.CommenterKey = Guid.NewGuid();
@@ -74,10 +79,11 @@ namespace RaccoonBlog.Web.Controllers
 			ValidateCommentsAllowed(post, comments);
 			ValidateCaptcha(input, commenter);
 
-			if (ModelState.IsValid == false)
-				return PostingCommentFailed(post, input, showPostEvenIfPrivate);
+			if (ModelState.IsValid == false) {
+                return PostingCommentFailed(post, input, showPostEvenIfPrivate);
+            }
 
-			TaskExecutor.ExcuteLater(new AddCommentTask(input, Request.MapTo<AddCommentTask.RequestValues>(), id));
+            TaskExecutor.ExcuteLater(new AddCommentTask(input, Request.MapTo<AddCommentTask.RequestValues>(), id));
 
 			CommenterUtil.SetCommenterCookie(Response, input.CommenterKey.MapTo<string>());
 
@@ -87,49 +93,57 @@ namespace RaccoonBlog.Web.Controllers
 		private ActionResult PostingCommentSucceeded(Post post)
 		{
 			const string successMessage = "Your comment will be posted soon. Thanks!";
-			if (Request.IsAjaxRequest())
-				return Json(new {Success = true, message = successMessage});
+			if (Request.IsAjaxRequest()) {
+                return Json(new {Success = true, message = successMessage});
+            }
 
-			TempData["message"] = successMessage;
+            TempData["message"] = successMessage;
 			var postReference = post.MapTo<PostReference>();
 			return RedirectToAction("Details", new {Id = postReference.DomainId, postReference.Slug});
 		}
 
 		private void ValidateCommentsAllowed(Post post, PostComments comments)
 		{
-			if (comments.AreCommentsClosed(post, BlogConfig.NumberOfDayToCloseComments))
-				ModelState.AddModelError("CommentsClosed", "This post is closed for new comments.");
-			if (post.AllowComments == false)
-				ModelState.AddModelError("CommentsClosed", "This post does not allow comments.");
-		}
+			if (comments.AreCommentsClosed(post, BlogConfig.NumberOfDayToCloseComments)) {
+                ModelState.AddModelError("CommentsClosed", "This post is closed for new comments.");
+            }
+
+            if (post.AllowComments == false) {
+                ModelState.AddModelError("CommentsClosed", "This post does not allow comments.");
+            }
+        }
 
 		private void ValidateCaptcha(CommentInput input, Commenter commenter)
 		{
 			if (Request.IsAuthenticated ||
-			    (commenter != null && commenter.IsTrustedCommenter == true))
-				return;
+			    (commenter != null && commenter.IsTrustedCommenter == true)) {
+                return;
+            }
 
-			if (RecaptchaValidatorWrapper.Validate(ControllerContext.HttpContext))
-				return;
+            if (RecaptchaValidatorWrapper.Validate(ControllerContext.HttpContext)) {
+                return;
+            }
 
-			ModelState.AddModelError("CaptchaNotValid",
+            ModelState.AddModelError("CaptchaNotValid",
 			                         "You did not type the verification word correctly. Please try again.");
 		}
 
 		private ActionResult PostingCommentFailed(Post post, CommentInput input, Guid key)
 		{
-			if (Request.IsAjaxRequest())
-				return Json(new {Success = false, message = ModelState.FirstErrorMessage()});
+			if (Request.IsAjaxRequest()) {
+                return Json(new {Success = false, message = ModelState.FirstErrorMessage()});
+            }
 
-			var postReference = post.MapTo<PostReference>();
+            var postReference = post.MapTo<PostReference>();
 			var result = Details(postReference.DomainId, postReference.Slug, key);
 			var model = result as ViewResult;
 			if (model != null)
 			{
 				var viewModel = model.Model as PostViewModel;
-				if (viewModel != null)
-					viewModel.Input = input;
-			}
+				if (viewModel != null) {
+                    viewModel.Input = input;
+                }
+            }
 			return result;
 		}
 
@@ -145,9 +159,11 @@ namespace RaccoonBlog.Web.Controllers
 			}
 
 			var cookie = Request.Cookies[CommenterUtil.CommenterCookieName];
-			if (cookie == null) return;
+			if (cookie == null) {
+                return;
+            }
 
-			var commenter = RavenSession.GetCommenter(cookie.Value);
+            var commenter = RavenSession.GetCommenter(cookie.Value);
 			if (commenter == null)
 			{
 				vm.IsLoggedInCommenter = false;

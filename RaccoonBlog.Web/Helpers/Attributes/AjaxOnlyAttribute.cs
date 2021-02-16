@@ -9,8 +9,9 @@ namespace RaccoonBlog.Web.Helpers.Attributes
 		public override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
 			var request = filterContext.HttpContext.Request;
-			if (!request.IsAjaxRequest())
-				filterContext.Result = new HttpNotFoundResult("Only Ajax calls are permitted.");
-		}
+			if (!request.IsAjaxRequest()) {
+                filterContext.Result = new HttpNotFoundResult("Only Ajax calls are permitted.");
+            }
+        }
 	}
 }

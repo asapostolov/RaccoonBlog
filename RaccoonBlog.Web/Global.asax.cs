@@ -1,7 +1,11 @@
 using System;
+using System.Configuration;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Security.Cryptography.X509Certificates;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 using System.Web.Routing;
 using DataAnnotationsExtensions.ClientValidation;
@@ -13,9 +17,9 @@ using RaccoonBlog.Web.Helpers.Binders;
 using RaccoonBlog.Web.Infrastructure.AutoMapper;
 using RaccoonBlog.Web.Infrastructure.Indexes;
 using Raven.Client;
-using Raven.Client.Document;
-using Raven.Client.Indexes;
-using Raven.Client.MvcIntegration;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Indexes;
+using Raven.Client.Documents.Session;
 
 namespace RaccoonBlog.Web
 {
@@ -27,20 +31,20 @@ namespace RaccoonBlog.Web
 			                	{
 			                		HttpContext.Current.Items["CurrentRequestRavenSession"] = RavenController.DocumentStore.OpenSession();
 			                	};
-			EndRequest += (sender, args) =>
-			              	{
-								using (var session = (IDocumentSession)HttpContext.Current.Items["CurrentRequestRavenSession"])
-								{
-									if (session == null)
-										return;
+			EndRequest += ( sender, args ) => {
+				using ( var session = (IDocumentSession) HttpContext.Current.Items["CurrentRequestRavenSession"] ) {
+					if ( session == null ) {
+						return;
+					}
 
-									if (Server.GetLastError() != null)
-										return;
+					if ( Server.GetLastError() != null ) {
+						return;
+					}
 
-									session.SaveChanges();
-								}
-								TaskExecutor.StartExecuting();
-			              	};
+					session.SaveChanges();
+				}
+				TaskExecutor.StartExecuting();
+			};
 		}
 
 		public static void RegisterGlobalFilters(GlobalFilterCollection filters)
@@ -93,19 +97,39 @@ namespace RaccoonBlog.Web
 
 		private static void InitializeDocumentStore()
 		{
-			if (DocumentStore != null) return; // prevent misuse
+			if ( DocumentStore != null ) {
+				return; // prevent misuse
+			}
 
-			DocumentStore = new DocumentStore
-			                	{
-			                		ConnectionStringName = "RavenDB"
-			                	}.Initialize();
+			var information = ConfigurationManager.ConnectionStrings["RavenDB4"]
+												 .ConnectionString.Split( ';' )
+												 .Select( x => x.Trim().Split( '=' ) )
+												 .ToDictionary( x => x[0], z => z[1] );
+
+			X509Certificate2 clientCertificate = null;
+			if ( information.ContainsKey( "Certificate" ) ) {
+				var path = HostingEnvironment.MapPath( $"~\\App_Data\\Certificates\\{information["Certificate"]}" );
+				clientCertificate = new X509Certificate2( path, information["Password"],
+					X509KeyStorageFlags.MachineKeySet |
+					X509KeyStorageFlags.PersistKeySet |
+					X509KeyStorageFlags.Exportable );
+			}
+
+			DocumentStore = new DocumentStore {
+				Certificate = clientCertificate,
+				Urls = information["Url"].Split( ',' ).ToArray(),
+				Database = information["Database"],
+				//Conventions = { IdentityPartsSeparator = '-' }
+			};
+
+			DocumentStore.Initialize();
 
 			TryCreatingIndexesOrRedirectToErrorPage();
 
-			RavenProfiler.InitializeFor(DocumentStore,
-			                            //Fields to filter out of the output
-			                            "Email", "HashedPassword", "AkismetKey", "GoogleAnalyticsKey", "ShowPostEvenIfPrivate",
-			                            "PasswordSalt", "UserHostAddress");
+			//RavenProfiler.InitializeFor(DocumentStore,
+			//                            //Fields to filter out of the output
+			//                            "Email", "HashedPassword", "AkismetKey", "GoogleAnalyticsKey", "ShowPostEvenIfPrivate",
+			//                            "PasswordSalt", "UserHostAddress");
 		}
 
 		private static void TryCreatingIndexesOrRedirectToErrorPage()
@@ -117,8 +141,9 @@ namespace RaccoonBlog.Web
 			catch (WebException e)
 			{
 				var socketException = e.InnerException as SocketException;
-				if(socketException == null)
+				if(socketException == null) {
 					throw;
+				}
 
 				switch (socketException.SocketErrorCode)
 				{

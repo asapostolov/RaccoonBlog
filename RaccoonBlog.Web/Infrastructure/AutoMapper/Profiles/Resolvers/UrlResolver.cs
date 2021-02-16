@@ -4,13 +4,15 @@ namespace RaccoonBlog.Web.Infrastructure.AutoMapper.Profiles.Resolvers
 	{
 		public static string Resolve(string url)
 		{
-			if (string.IsNullOrEmpty(url))
-				return null;
+			if (string.IsNullOrEmpty(url)) {
+                return null;
+            }
 
-			if (url.StartsWith("http://") || url.StartsWith("https://"))
-				return url;
+            if (url.StartsWith("http://") || url.StartsWith("https://")) {
+                return url;
+            }
 
-			return "http://" + url;
+            return "http://" + url;
 		}
 	}
 }

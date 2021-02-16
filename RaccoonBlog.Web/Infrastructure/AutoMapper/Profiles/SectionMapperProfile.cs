@@ -42,9 +42,11 @@ namespace RaccoonBlog.Web.Infrastructure.AutoMapper.Profiles
 
 		private static string MaxLength(string text, int len)
 		{
-			if (text == null)
-				return null;
-			if(text.Length > len)
+			if (text == null) {
+                return null;
+            }
+
+            if (text.Length > len)
 			{
 				return text.Substring(0, len - 3) + "...";
 			}

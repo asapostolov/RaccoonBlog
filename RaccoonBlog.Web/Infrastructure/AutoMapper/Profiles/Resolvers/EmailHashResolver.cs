@@ -7,9 +7,11 @@ namespace RaccoonBlog.Web.Infrastructure.AutoMapper.Profiles.Resolvers
 	{
 		public static string Resolve(string email)
 		{
-			if (email == null) return null;
+			if (email == null) {
+                return null;
+            }
 
-			var str = email.Trim().ToLowerInvariant();
+            var str = email.Trim().ToLowerInvariant();
 			return GetMd5Hash(str);
 		}
 		

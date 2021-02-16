@@ -15,9 +15,11 @@ namespace RaccoonBlog.Web.Helpers
 
 		public static MvcHtmlString CompiledContent(this IDynamicContent contentItem, bool trustContent)
 		{
-			if (contentItem == null) return MvcHtmlString.Empty;
+			if (contentItem == null) {
+                return MvcHtmlString.Empty;
+            }
 
-			switch (contentItem.ContentType)
+            switch (contentItem.ContentType)
 			{
 				case DynamicContentType.Markdown:
 					var md = new Markdown
@@ -68,10 +70,11 @@ namespace RaccoonBlog.Web.Helpers
 
 		private static string GetFirstLineSpaces(string firstLine)
 		{
-			if (firstLine == null)
-				return string.Empty;
+			if (firstLine == null) {
+                return string.Empty;
+            }
 
-			var match = FirstLineSpacesFinder.Match(firstLine);
+            var match = FirstLineSpacesFinder.Match(firstLine);
 			if (match.Success)
 			{
 				return firstLine.Substring(0, match.Length);

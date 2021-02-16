@@ -27,18 +27,21 @@ namespace RaccoonBlog.Web.Areas.Admin.Controllers
 		public ActionResult Edit(string id)
 		{
 			var section = RavenSession.Load<Section>(id);
-			if (section == null)
-				return HttpNotFound("Section does not exist.");
-			return View(section);
+			if (section == null) {
+                return HttpNotFound("Section does not exist.");
+            }
+
+            return View(section);
 		}
 
 		[HttpPost]
 		public ActionResult Update(Section section)
 		{
-			if (!ModelState.IsValid)
-				return View("Edit", section);
+			if (!ModelState.IsValid) {
+                return View("Edit", section);
+            }
 
-			if (section.Position == 0)
+            if (section.Position == 0)
 			{
 				section.Position = RavenSession.Query<Section>()
 					.OrderByDescending(sec => sec.Position)
@@ -53,10 +56,11 @@ namespace RaccoonBlog.Web.Areas.Admin.Controllers
 		public ActionResult Delete(string id)
 		{
 			var section = RavenSession.Load<Section>(id);
-			if (section == null)
-				return HttpNotFound("Section does not exist.");
+			if (section == null) {
+                return HttpNotFound("Section does not exist.");
+            }
 
-			RavenSession.Delete(section);
+            RavenSession.Delete(section);
 			
 			if (Request.IsAjaxRequest())
 			{
@@ -70,13 +74,15 @@ namespace RaccoonBlog.Web.Areas.Admin.Controllers
 		public ActionResult SetPosition(string id, int newPosition)
 		{
 			var section = RavenSession.Load<Section>(id);
-			if (section == null)
-				return Json(new {success = false, message = string.Format("There is no post with id {0}", id)});
+			if (section == null) {
+                return Json(new {success = false, message = string.Format("There is no post with id {0}", id)});
+            }
 
-			if (section.Position == newPosition)
-				return Json(new {success = false, message = string.Format("The {0} section has already this position", section.Title)});
+            if (section.Position == newPosition) {
+                return Json(new {success = false, message = string.Format("The {0} section has already this position", section.Title)});
+            }
 
-			if (section.Position > newPosition)
+            if (section.Position > newPosition)
 			{
 				var sections = RavenSession.Query<Section>()
 					.Where(s => s.Position >= newPosition && s.Position < section.Position)

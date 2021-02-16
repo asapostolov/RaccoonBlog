@@ -7,7 +7,9 @@ using RaccoonBlog.Web.Infrastructure.Indexes;
 using RaccoonBlog.Web.Models;
 using RaccoonBlog.Web.ViewModels;
 using Raven.Client;
-using Raven.Client.Linq;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Linq;
+using Raven.Client.Documents.Session;
 
 namespace RaccoonBlog.Web.Infrastructure.Common
 {
@@ -24,7 +26,7 @@ namespace RaccoonBlog.Web.Infrastructure.Common
 				.OrderByDescending(x => x.PostPublishAt)
 				.ThenByDescending(x => x.CreatedAt)
 				.Where(x => x.PostPublishAt < DateTimeOffset.Now.AsMinutes())
-				.AsProjection<PostComments_CreationDate.ReduceResult>();
+				.ProjectInto<PostComments_CreationDate.ReduceResult>();
 
 			var commentsIdentifiers = processQuery(query)
 				.ToList();
@@ -57,21 +59,23 @@ namespace RaccoonBlog.Web.Infrastructure.Common
 			}
 
 			var postReference = queryable
-				.Select(p => new Post {Id = p.Id, Title = p.Title})
+				.Select( p => new Post { Id = p.Id, Title = p.Title } )
 				.FirstOrDefault();
 
-			if (postReference == null)
-				return null;
+			if (postReference == null) {
+                return null;
+            }
 
-			return postReference.MapTo<PostReference>();
+            return postReference.MapTo<PostReference>();
 		}
 
 		public static User GetCurrentUser(this IDocumentSession session)
 		{
-			if (HttpContext.Current.Request.IsAuthenticated == false)
-				return null;
+			if (HttpContext.Current.Request.IsAuthenticated == false) {
+                return null;
+            }
 
-			var email = HttpContext.Current.User.Identity.Name;
+            var email = HttpContext.Current.User.Identity.Name;
 			var user = session.GetUserByEmail(email);
 			return user;
 		}
@@ -84,21 +88,32 @@ namespace RaccoonBlog.Web.Infrastructure.Common
 		public static Commenter GetCommenter(this IDocumentSession session, string commenterKey)
 		{
 			Guid guid;
-			if (Guid.TryParse(commenterKey, out guid) == false)
-				return null;
-			return GetCommenter(session, guid);
+			if (Guid.TryParse(commenterKey, out guid) == false) {
+                return null;
+            }
+
+            return GetCommenter(session, guid);
 		}
 
 		public static Commenter GetCommenter(this IDocumentSession session, Guid? commenterKey)
 		{
-			if (commenterKey == null)
-				return null;
-			return GetCommenter(session, commenterKey.Value);
+			if (commenterKey == null) {
+                return null;
+            }
+
+            return GetCommenter(session, commenterKey.Value);
 		}
 
 		public static Commenter GetCommenter(this IDocumentSession session, Guid commenterKey)
 		{
 			return session.Query<Commenter>().FirstOrDefault(x => x.Key == commenterKey);
+		}
+
+		public static string PostId(this string id ) {
+			return $"posts/{id}";
+		}
+		public static string CleanPostId( this string id ) {
+			return id.Replace( "posts/", "" );
 		}
 	}
 }

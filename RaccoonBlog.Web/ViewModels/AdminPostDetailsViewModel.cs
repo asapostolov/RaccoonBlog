@@ -16,7 +16,7 @@ namespace RaccoonBlog.Web.ViewModels
 
 		public class Comment
 		{
-			public int Id { get; set; }
+			public string Id { get; set; }
 			public MvcHtmlString Body { get; set; }
 			public string Author { get; set; }
 			public string Url { get; set; }    // Look for HTML injection.
@@ -28,7 +28,7 @@ namespace RaccoonBlog.Web.ViewModels
 
 		public class PostDetails
 		{
-			public int Id { get; set; }
+			public string Id { get; set; }
 			public MvcHtmlString Title { get; set; }
 			public string Slug { get; set; }
 			public MvcHtmlString Body { get; set; }

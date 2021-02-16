@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Raven.Client;
+using Raven.Client.Documents;
 
 namespace HibernatingRhinos.Loci.Common.Tasks
 {
@@ -53,8 +54,10 @@ namespace HibernatingRhinos.Loci.Common.Tasks
 				                      	}, TaskCreationOptions.LongRunning)
 					.ContinueWith(task =>
 					              	{
-					              		if (ExceptionHandler != null) ExceptionHandler(task.Exception);
-					              	}, TaskContinuationOptions.OnlyOnFaulted);
+					              		if (ExceptionHandler != null) {
+											  ExceptionHandler(task.Exception);
+										  }
+									  }, TaskContinuationOptions.OnlyOnFaulted);
 			}
 		}
 

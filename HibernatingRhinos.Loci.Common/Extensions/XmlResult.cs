@@ -17,8 +17,9 @@ namespace HibernatingRhinos.Loci.Common.Extensions
 
 		public override void ExecuteResult(ControllerContext context)
 		{
-			if (_etag != null)
+			if (_etag != null) {
 				context.HttpContext.Response.AddHeader("ETag", _etag);
+			}
 
 			context.HttpContext.Response.ContentType = "text/xml";
 

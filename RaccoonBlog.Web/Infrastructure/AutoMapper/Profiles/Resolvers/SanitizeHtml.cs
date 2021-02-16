@@ -46,9 +46,11 @@ namespace RaccoonBlog.Web.Infrastructure.AutoMapper.Profiles.Resolvers
 		/// </summary>
 		public static string Sanitize(string html)
 		{
-			if (string.IsNullOrEmpty(html)) return html;
-			// match every HTML tag in the input
-			MatchCollection tags = Tags.Matches(html);
+			if (string.IsNullOrEmpty(html)) {
+                return html;
+            }
+            // match every HTML tag in the input
+            MatchCollection tags = Tags.Matches(html);
 			for (int i = tags.Count - 1; i > -1; i--)
 			{
 				Match tag = tags[i];

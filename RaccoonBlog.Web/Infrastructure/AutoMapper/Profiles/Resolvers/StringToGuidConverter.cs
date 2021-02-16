@@ -8,9 +8,11 @@ namespace RaccoonBlog.Web.Infrastructure.AutoMapper.Profiles.Resolvers
 		protected override Guid ConvertCore(string source)
 		{
 			Guid guid;
-			if (Guid.TryParse(source, out guid) == false)
-				return Guid.Empty;
-			return guid;
+			if (Guid.TryParse(source, out guid) == false) {
+                return Guid.Empty;
+            }
+
+            return guid;
 		}
 	}
 
@@ -19,9 +21,11 @@ namespace RaccoonBlog.Web.Infrastructure.AutoMapper.Profiles.Resolvers
 		protected override Guid? ConvertCore(string source)
 		{
 			Guid guid;
-			if (Guid.TryParse(source, out guid) == false)
-				return null;
-			return guid;
+			if (Guid.TryParse(source, out guid) == false) {
+                return null;
+            }
+
+            return guid;
 		}
 	}
 }

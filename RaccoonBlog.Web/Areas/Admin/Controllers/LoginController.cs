@@ -46,9 +46,11 @@ namespace RaccoonBlog.Web.Areas.Admin.Controllers
 
 		private ActionResult RedirectFromLoginPage(string retrunUrl = null)
 		{
-			if (string.IsNullOrEmpty(retrunUrl))
-				return RedirectToRoute("homepage");
-			return Redirect(retrunUrl);
+			if (string.IsNullOrEmpty(retrunUrl)) {
+                return RedirectToRoute("homepage");
+            }
+
+            return Redirect(retrunUrl);
 		}
 
 		[HttpGet]
@@ -61,10 +63,11 @@ namespace RaccoonBlog.Web.Areas.Admin.Controllers
 		[ChildActionOnly]
 		public ActionResult CurrentUser()
 		{
-			if (Request.IsAuthenticated == false)
-				return View(new CurrentUserViewModel());
+			if (Request.IsAuthenticated == false) {
+                return View(new CurrentUserViewModel());
+            }
 
-			var user = RavenSession.GetUserByEmail(HttpContext.User.Identity.Name);
+            var user = RavenSession.GetUserByEmail(HttpContext.User.Identity.Name);
 			return View(new CurrentUserViewModel {FullName = user.FullName}); // TODO: we don't really need a VM here
 		}
 	}

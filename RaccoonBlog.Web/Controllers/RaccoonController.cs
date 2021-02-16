@@ -1,8 +1,8 @@
 using System;
 using System.Web.Mvc;
 using HibernatingRhinos.Loci.Common.Controllers;
-using Raven.Imports.Newtonsoft.Json;
-using Raven.Imports.Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using RaccoonBlog.Web.Helpers.Results;
 using RaccoonBlog.Web.Models;
 
@@ -47,9 +47,11 @@ namespace RaccoonBlog.Web.Controllers
 			{
 				var s = Request.QueryString["page"];
 				int result;
-				if (int.TryParse(s, out result))
-					return Math.Max(DefaultPage, result);
-				return DefaultPage;
+				if (int.TryParse(s, out result)) {
+                    return Math.Max(DefaultPage, result);
+                }
+
+                return DefaultPage;
 			}
 		}
 

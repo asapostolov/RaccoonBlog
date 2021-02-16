@@ -1,7 +1,8 @@
 ﻿using System;
 using NLog;
-using Raven.Abstractions.Exceptions;
 using Raven.Client;
+using Raven.Client.Documents.Session;
+using Raven.Client.Exceptions;
 
 namespace HibernatingRhinos.Loci.Common.Tasks
 {

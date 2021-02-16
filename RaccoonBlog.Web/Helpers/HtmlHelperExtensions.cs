@@ -10,16 +10,18 @@ namespace RaccoonBlog.Web.Helpers
 			var tag = new TagBuilder("a");
 			tag.InnerHtml = text;
 
-			if (string.IsNullOrEmpty(href) == false)
-				tag.Attributes["href"] = href;
+			if (string.IsNullOrEmpty(href) == false) {
+                tag.Attributes["href"] = href;
+            }
 
-			IDictionary<string, object> attributes = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
+            IDictionary<string, object> attributes = HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
 			foreach (var attribute in attributes)
 			{
 				var val = attribute.Value.ToString();
-				if (string.IsNullOrEmpty(val) == false)
-					tag.Attributes[attribute.Key] = val;
-			}
+				if (string.IsNullOrEmpty(val) == false) {
+                    tag.Attributes[attribute.Key] = val;
+                }
+            }
 
 			return MvcHtmlString.Create(tag.ToString(TagRenderMode.Normal));
 		}

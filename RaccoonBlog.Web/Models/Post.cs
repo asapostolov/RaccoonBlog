@@ -44,8 +44,10 @@ namespace RaccoonBlog.Web.Models
 		{
 			get
 			{
-				if (_showPostEvenIfPrivate == Guid.Empty)
+				if (_showPostEvenIfPrivate == Guid.Empty) {
 					_showPostEvenIfPrivate = Guid.NewGuid();
+				}
+
 				return _showPostEvenIfPrivate;
 			}
 			set { _showPostEvenIfPrivate = value; }
@@ -58,8 +60,10 @@ namespace RaccoonBlog.Web.Models
 		{
 			get
 			{
-				if (Tags == null)
+				if (Tags == null) {
 					yield break;
+				}
+
 				foreach (var tag in Tags)
 				{
 					yield return SlugConverter.TitleToSlug(tag);
@@ -69,11 +73,13 @@ namespace RaccoonBlog.Web.Models
 
 		public bool IsPublicPost(Guid key)
 		{
-			if (IsDeleted)
+			if (IsDeleted) {
 				return false;
+			}
 
-			if (PublishAt <= DateTimeOffset.Now)
+			if (PublishAt <= DateTimeOffset.Now) {
 				return true;
+			}
 
 			return key != Guid.Empty && key == ShowPostEvenIfPrivate;
 		}
@@ -82,7 +88,7 @@ namespace RaccoonBlog.Web.Models
 	public class PostInput
 	{
 		[HiddenInput]
-		public int Id { get; set; }
+		public string Id { get; set; }
 
 		[Required]
 		[Display(Name = "Title")]
@@ -114,7 +120,7 @@ namespace RaccoonBlog.Web.Models
 
 		public bool IsNewPost()
 		{
-			return Id == 0;
+			return Id == "0"||Id == null || Id == "";
 		}
 	}
 }

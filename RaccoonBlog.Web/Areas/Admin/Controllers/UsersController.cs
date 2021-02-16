@@ -28,76 +28,85 @@ namespace RaccoonBlog.Web.Areas.Admin.Controllers
 		[HttpPost]
 		public ActionResult Add(UserInput input)
 		{
-			if (!ModelState.IsValid)
-				return View("Edit", input);
+			if (!ModelState.IsValid) {
+                return View("Edit", input);
+            }
 
-			var user = new User();
+            var user = new User();
 			input.MapPropertiesToInstance(user);
 			RavenSession.Store(user);
 			return RedirectToAction("Index");
 		}
 
 		[HttpGet]
-		public ActionResult Edit(int id)
+		public ActionResult Edit(string id)
 		{
 			var user = RavenSession.Load<User>(id);
-			if (user == null)
-				return HttpNotFound("User does not exist.");
-			return View(user.MapTo<UserInput>());
+			if (user == null) {
+                return HttpNotFound("User does not exist.");
+            }
+
+            return View(user.MapTo<UserInput>());
 		}
 
 		[HttpPost]
 		public ActionResult Update(UserInput input)
 		{
-			if (!ModelState.IsValid)
-				return View("Edit", input);
+			if (!ModelState.IsValid) {
+                return View("Edit", input);
+            }
 
-			var user = RavenSession.Load<User>(input.Id) ?? new User();
+            var user = RavenSession.Load<User>(input.Id) ?? new User();
 			input.MapPropertiesToInstance(user);
 			RavenSession.Store(user);
 			return RedirectToAction("Index");
 		}
 
 		[HttpGet]
-		public ActionResult ChangePassword(int id)
+		public ActionResult ChangePassword(string id)
 		{
 			var user = RavenSession.Load<User>(id);
-			if (user == null)
-				return HttpNotFound("User does not exist.");
+			if (user == null) {
+                return HttpNotFound("User does not exist.");
+            }
 
-			return View(new ChangePasswordModel());
+            return View(new ChangePasswordModel());
 		}
 
 		[HttpPost]
 		public ActionResult ChangePassword(ChangePasswordModel input)
 		{
-			if (!ModelState.IsValid)
-				return View("ChangePassword", input);
+			if (!ModelState.IsValid) {
+                return View("ChangePassword", input);
+            }
 
-			var user = RavenSession.Load<User>(input.Id);
-			if (user == null)
-				return HttpNotFound("User does not exist.");
+            var user = RavenSession.Load<User>(input.Id);
+			if (user == null) {
+                return HttpNotFound("User does not exist.");
+            }
 
-			if (user.ValidatePassword(input.OldPassword) == false)
+            if (user.ValidatePassword(input.OldPassword) == false)
 			{
 				ModelState.AddModelError("OldPassword", "Old password did not match existing password");
 			}
 
-			if (ModelState.IsValid == false)
-				return View(input);
+			if (ModelState.IsValid == false) {
+                return View(input);
+            }
 
-			user.SetPassword(input.NewPassword);
+            user.SetPassword(input.NewPassword);
 			return RedirectToAction("Index");
 		}
 
 		[HttpPost]
-		public ActionResult SetActivation(int id, bool isActive)
+		public ActionResult SetActivation(string id, bool isActive)
 		{
 			var user = RavenSession.Load<User>(id);
-			if (user == null)
-				return HttpNotFound("User does not exist.");
+			if (user == null) {
+                return HttpNotFound("User does not exist.");
+            }
 
-			user.Enabled = isActive;
+            user.Enabled = isActive;
 
 			return RedirectToAction("Index");
 		}

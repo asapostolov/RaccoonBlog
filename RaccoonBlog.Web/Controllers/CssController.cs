@@ -30,13 +30,15 @@ namespace RaccoonBlog.Web.Controllers
 
 			var css = "";
 
-			if(contentType=="less")
-				css = dotless.Core.Less.Parse(builder.ToString(), new DotlessConfiguration());
+			if(contentType=="less") {
+                css = dotless.Core.Less.Parse(builder.ToString(), new DotlessConfiguration());
+            }
 
-			if ( contentType == "css" )
-				css = builder.ToString();
+            if ( contentType == "css" ) {
+                css = builder.ToString();
+            }
 
-			return Content(css, "text/css");
+            return Content(css, "text/css");
 		}
 
 	}

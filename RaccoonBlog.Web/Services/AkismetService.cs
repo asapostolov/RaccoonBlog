@@ -31,9 +31,11 @@ namespace RaccoonBlog.Web.Services
 		public static bool CheckForSpam(PostComments.Comment comment)
 		{
 			var api = new Akismet(AkismetKey, BlogUrl, comment.UserAgent);
-			if (!api.VerifyKey()) throw new Exception("Akismet API key invalid.");
+			if (!api.VerifyKey()) {
+                throw new Exception("Akismet API key invalid.");
+            }
 
-			var akismetComment = new AkismetComment
+            var akismetComment = new AkismetComment
 			{
 				Blog = BlogUrl,
 				UserIp = comment.UserHostAddress,
@@ -52,9 +54,11 @@ namespace RaccoonBlog.Web.Services
 		public static void MarkHam(PostComments.Comment comment)
 		{
 			var api = new Akismet(AkismetKey, BlogUrl, comment.UserAgent);
-			if (!api.VerifyKey()) throw new Exception("Akismet API key invalid.");
+			if (!api.VerifyKey()) {
+                throw new Exception("Akismet API key invalid.");
+            }
 
-			var akismetComment = new AkismetComment
+            var akismetComment = new AkismetComment
 			{
 				Blog = BlogUrl,
 				UserIp = comment.UserHostAddress,
@@ -73,9 +77,11 @@ namespace RaccoonBlog.Web.Services
 		public static void MarkSpam(PostComments.Comment comment)
 		{
 			var api = new Akismet(AkismetKey, BlogUrl, comment.UserAgent);
-			if (!api.VerifyKey()) throw new Exception("Akismet API key invalid.");
+			if (!api.VerifyKey()) {
+                throw new Exception("Akismet API key invalid.");
+            }
 
-			var akismetComment = new AkismetComment
+            var akismetComment = new AkismetComment
 			{
 				Blog = BlogUrl,
 				UserIp = comment.UserHostAddress,

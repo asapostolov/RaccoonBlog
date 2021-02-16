@@ -2,8 +2,9 @@ using System;
 using System.Linq;
 using RaccoonBlog.Web.Infrastructure.Common;
 using RaccoonBlog.Web.Models;
-using Raven.Client.Linq;
 using Raven.Client;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Session;
 
 namespace RaccoonBlog.Web.Services
 {
@@ -59,9 +60,10 @@ namespace RaccoonBlog.Web.Services
 
 				post.PublishAt = nextPostDate;
 
-				if (post.CommentsId != null)
-					session.Load<PostComments>(post.CommentsId).Post.PublishAt = nextPostDate;
-			}
+				if (post.CommentsId != null) {
+                    session.Load<PostComments>(post.CommentsId).Post.PublishAt = nextPostDate;
+                }
+            }
 
 			return requestedDate;
 		}

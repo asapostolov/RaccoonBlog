@@ -33,10 +33,11 @@ namespace RaccoonBlog.Web.Helpers.Validation
 				    (dependentvalue != null && dependentvalue.Equals(this.TargetValue)))
 				{
 					// match => means we should try validating this field
-					if (!_innerAttribute.IsValid(value))
-						// validation failed - return an error
-						return new ValidationResult(this.ErrorMessage, new[] {validationContext.MemberName});
-				}
+					if (!_innerAttribute.IsValid(value)) {
+                        // validation failed - return an error
+                        return new ValidationResult(this.ErrorMessage, new[] {validationContext.MemberName});
+                    }
+                }
 			}
 
 			return ValidationResult.Success;
@@ -56,10 +57,11 @@ namespace RaccoonBlog.Web.Helpers.Validation
 			// if it's a bool, format it javascript style 
 			// (the default is True or False!)
 			string targetValue = (this.TargetValue ?? "").ToString();
-			if (this.TargetValue.GetType() == typeof (bool))
-				targetValue = targetValue.ToLower();
+			if (this.TargetValue.GetType() == typeof (bool)) {
+                targetValue = targetValue.ToLower();
+            }
 
-			rule.ValidationParameters.Add("dependentproperty", depProp);
+            rule.ValidationParameters.Add("dependentproperty", depProp);
 			rule.ValidationParameters.Add("targetvalue", targetValue);
 
 			yield return rule;
@@ -74,10 +76,12 @@ namespace RaccoonBlog.Web.Helpers.Validation
 			// want to get the context as though it was one level higher (i.e. outside the current property,
 			// which is the containing object (our Person), and hence the same level as the dependent property.
 			var thisField = metadata.PropertyName + "_";
-			if (depProp.StartsWith(thisField))
-				// strip it off again
-				depProp = depProp.Substring(thisField.Length);
-			return depProp;
+			if (depProp.StartsWith(thisField)) {
+                // strip it off again
+                depProp = depProp.Substring(thisField.Length);
+            }
+
+            return depProp;
 		}
 	}
 }

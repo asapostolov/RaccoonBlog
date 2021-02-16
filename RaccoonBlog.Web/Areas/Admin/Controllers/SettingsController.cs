@@ -18,16 +18,19 @@ namespace RaccoonBlog.Web.Areas.Admin.Controllers
 			if (ModelState.IsValid == false)
 			{
 				ViewBag.Message = ModelState.FirstErrorMessage();
-				if (Request.IsAjaxRequest())
-					return Json(new { Success = false, ViewBag.Message });
-				return View(BlogConfig);
+				if (Request.IsAjaxRequest()) {
+                    return Json(new { Success = false, ViewBag.Message });
+                }
+
+                return View(BlogConfig);
 			}
 
 			RavenSession.Store(config);
 
 			ViewBag.Message = "Configurations successfully saved!";
-			if (Request.IsAjaxRequest())
-				return Json(new { Success = true, ViewBag.Message });
+			if (Request.IsAjaxRequest()) {
+                return Json(new { Success = true, ViewBag.Message });
+            }
 
             RavenSession.SaveChanges();
 			return View(config);

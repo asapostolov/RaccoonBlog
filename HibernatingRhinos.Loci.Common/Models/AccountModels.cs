@@ -1,13 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using DataAnnotationsExtensions;
+using CompareAttribute = System.ComponentModel.DataAnnotations.CompareAttribute;
 
 namespace HibernatingRhinos.Loci.Common.Models
 {
 	public class ChangePasswordModel
 	{
 		[HiddenInput]
-		public int Id { get; set; }
+		public string Id { get; set; }
 
 		[Required]
 		[DataType(DataType.Password)]

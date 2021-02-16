@@ -9,14 +9,16 @@ namespace RaccoonBlog.Web.ViewModels
 		public string Id { get; set; }
 		public string Title { get; set; }
 
-		private int domainId;
-		public int DomainId
+		private string domainId;
+		public string DomainId
 		{
 			get
 			{
-				if (domainId == 0)
-					domainId = RavenIdResolver.Resolve(Id);
-				return domainId;
+				if ( domainId == "0" || domainId == null || domainId == "" ) {
+					domainId = Id.CleanPostId();
+				}
+
+                return domainId;
 			}
 		}
 

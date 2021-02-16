@@ -2,6 +2,8 @@
 using System.Xml.Linq;
 using HibernatingRhinos.Loci.Common.Extensions;
 using Raven.Client;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Session;
 
 namespace HibernatingRhinos.Loci.Common.Controllers
 {

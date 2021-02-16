@@ -16,14 +16,16 @@ namespace RaccoonBlog.Web.Controllers
 		public ActionResult CreateBlog(BlogConfig config)
 		{
 			var result = AssertConfigurationIsNeeded();
-			if (result != null)
-				return result;
+			if (result != null) {
+                return result;
+            }
 
-			if (!ModelState.IsValid)
-				return View("Index");
+            if (!ModelState.IsValid) {
+                return View("Index");
+            }
 
-			// Create the blog by storing the config
-			config.Id = "Blog/Config";
+            // Create the blog by storing the config
+            config.Id = "Blog/Config";
 			RavenSession.Store(config);
 
 			// Create default sections

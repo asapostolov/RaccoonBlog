@@ -28,13 +28,15 @@ namespace RaccoonBlog.Web.Infrastructure.Common
 		{
 			// we explicitly choose not to user the CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek
 			// because we want it to be fixed for what we need, not whatever the user for this is set to.
-			if (date.DayOfWeek == DayOfWeek.Saturday)
-				return date.AddDays(2);
+			if (date.DayOfWeek == DayOfWeek.Saturday) {
+                return date.AddDays(2);
+            }
 
-			if (date.DayOfWeek == DayOfWeek.Sunday)
-				return date.AddDays(1);
+            if (date.DayOfWeek == DayOfWeek.Sunday) {
+                return date.AddDays(1);
+            }
 
-			return date;
+            return date;
 		}
 	}
 }

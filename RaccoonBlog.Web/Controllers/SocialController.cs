@@ -23,10 +23,11 @@ namespace RaccoonBlog.Web.Controllers
 	{
 		public ActionResult Login(string url, string returnUrl)
 		{
-			if (string.IsNullOrWhiteSpace(returnUrl))
-				returnUrl = Request.UrlReferrer != null ? Request.UrlReferrer.ToString() : Url.RouteUrl("homepage");
+			if (string.IsNullOrWhiteSpace(returnUrl)) {
+                returnUrl = Request.UrlReferrer != null ? Request.UrlReferrer.ToString() : Url.RouteUrl("homepage");
+            }
 
-			using (var openIdRelyingParty = new OpenIdRelyingParty())
+            using (var openIdRelyingParty = new OpenIdRelyingParty())
 			{
 				var response = openIdRelyingParty.GetResponse();
 				if (response == null)
@@ -67,19 +68,24 @@ namespace RaccoonBlog.Web.Controllers
 			var claimsResponse = response.GetExtension<ClaimsResponse>();
 			if (claimsResponse != null)
 			{
-				if (string.IsNullOrWhiteSpace(commenter.Name) && string.IsNullOrWhiteSpace(claimsResponse.Nickname) == false)
-					commenter.Name = claimsResponse.Nickname;
-				else if (string.IsNullOrWhiteSpace(commenter.Name) && string.IsNullOrWhiteSpace(claimsResponse.FullName) == false)
-					commenter.Name = claimsResponse.FullName;
-				if (string.IsNullOrWhiteSpace(commenter.Email) && string.IsNullOrWhiteSpace(claimsResponse.Email) == false)
-					commenter.Email = claimsResponse.Email;
-			}
+				if (string.IsNullOrWhiteSpace(commenter.Name) && string.IsNullOrWhiteSpace(claimsResponse.Nickname) == false) {
+                    commenter.Name = claimsResponse.Nickname;
+                } else if (string.IsNullOrWhiteSpace(commenter.Name) && string.IsNullOrWhiteSpace(claimsResponse.FullName) == false) {
+                    commenter.Name = claimsResponse.FullName;
+                }
+
+                if (string.IsNullOrWhiteSpace(commenter.Email) && string.IsNullOrWhiteSpace(claimsResponse.Email) == false) {
+                    commenter.Email = claimsResponse.Email;
+                }
+            }
 			var fetchResponse = response.GetExtension<FetchResponse>();
 			if (fetchResponse != null) // let us try from the attributes
 			{
-				if (string.IsNullOrWhiteSpace(commenter.Email))
-					commenter.Email = fetchResponse.GetAttributeValue(WellKnownAttributes.Contact.Email);
-				if (string.IsNullOrWhiteSpace(commenter.Name))
+				if (string.IsNullOrWhiteSpace(commenter.Email)) {
+                    commenter.Email = fetchResponse.GetAttributeValue(WellKnownAttributes.Contact.Email);
+                }
+
+                if (string.IsNullOrWhiteSpace(commenter.Name))
 				{
 					commenter.Name = fetchResponse.GetAttributeValue(WellKnownAttributes.Name.FullName) ??
 					                 fetchResponse.GetAttributeValue(WellKnownAttributes.Name.First) + " " +
@@ -97,15 +103,17 @@ namespace RaccoonBlog.Web.Controllers
 		private ActionResult HandleNullResponse(string url, string returnUrl)
 		{
 			Identifier id;
-			if (Identifier.TryParse(url, out id) == false)
-				ModelState.AddModelError("identifier", "The specified login identifier is invalid");
+			if (Identifier.TryParse(url, out id) == false) {
+                ModelState.AddModelError("identifier", "The specified login identifier is invalid");
+            }
 
-			if (ModelState.IsValid == false)
+            if (ModelState.IsValid == false)
 			{
-				if (Request.IsAjaxRequest())
-					return Json(new {Success = false, message = ModelState.FirstErrorMessage()});
+				if (Request.IsAjaxRequest()) {
+                    return Json(new {Success = false, message = ModelState.FirstErrorMessage()});
+                }
 
-				TempData["Message"] = ModelState.FirstErrorMessage();
+                TempData["Message"] = ModelState.FirstErrorMessage();
 				return Redirect(returnUrl);
 			}
 
@@ -142,9 +150,11 @@ namespace RaccoonBlog.Web.Controllers
 			}
 			catch (ProtocolException ex)
 			{
-				if (Request.IsAjaxRequest())
-					return Json(new {message = ex.Message});
-				TempData["Message"] = ex.Message;
+				if (Request.IsAjaxRequest()) {
+                    return Json(new {message = ex.Message});
+                }
+
+                TempData["Message"] = ex.Message;
 				return Redirect(returnUrl);
 			}
 		}

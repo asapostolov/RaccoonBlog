@@ -8,6 +8,8 @@ using RaccoonBlog.Web.Infrastructure.Common;
 using RaccoonBlog.Web.Models;
 using RaccoonBlog.Web.ViewModels;
 using Raven.Client;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Session;
 
 namespace RaccoonBlog.Web.Controllers
 {
@@ -15,7 +17,7 @@ namespace RaccoonBlog.Web.Controllers
 	{
 		public ActionResult Index()
 		{
-			RavenQueryStatistics stats;
+			QueryStatistics stats;
 			var posts = RavenSession.Query<Post>()
 				.Include(x => x.AuthorId)
 				.Statistics(out stats)
@@ -29,7 +31,7 @@ namespace RaccoonBlog.Web.Controllers
 
 		public ActionResult Tag(string slug)
 		{
-			RavenQueryStatistics stats;
+			QueryStatistics stats;
 			var posts = RavenSession.Query<Post>()
 				.Include(x => x.AuthorId)
 				.Statistics(out stats)
@@ -45,20 +47,22 @@ namespace RaccoonBlog.Web.Controllers
 
 		public ActionResult Archive(int year, int? month, int? day)
 		{
-			RavenQueryStatistics stats;
+			QueryStatistics stats;
 			var postsQuery = RavenSession.Query<Post>()
 				.Include(x => x.AuthorId)
 				.Statistics(out stats)
 				.WhereIsPublicPost()
 				.Where(post => post.PublishAt.Year == year);
 			
-			if (month != null)
-				postsQuery = postsQuery.Where(post => post.PublishAt.Month == month.Value);
+			if (month != null) {
+                postsQuery = postsQuery.Where(post => post.PublishAt.Month == month.Value);
+            }
 
-			if (day != null)
-				postsQuery = postsQuery.Where(post => post.PublishAt.Day == day.Value);
+            if (day != null) {
+                postsQuery = postsQuery.Where(post => post.PublishAt.Day == day.Value);
+            }
 
-			var posts = 
+            var posts = 
 				postsQuery.OrderByDescending(post => post.PublishAt)
 				.Paging(CurrentPage, DefaultPage, PageSize)
 				.ToList();
@@ -71,14 +75,16 @@ namespace RaccoonBlog.Web.Controllers
 			var summaries = posts.MapTo<PostsViewModel.PostSummary>();
 			foreach (var post in posts)
 			{
-				if (string.IsNullOrWhiteSpace(post.AuthorId))
-					continue;
+				if (string.IsNullOrWhiteSpace(post.AuthorId)) {
+                    continue;
+                }
 
-				var author = RavenSession.Load<User>(post.AuthorId);
-				if (author == null)
-					continue;
+                var author = RavenSession.Load<User>(post.AuthorId);
+				if (author == null) {
+                    continue;
+                }
 
-				var postSummary = summaries.First(x => x.Id == RavenIdResolver.Resolve(post.Id));
+                var postSummary = summaries.First(x => x.Id == RavenIdResolver.Resolve( post.Id ).ToString());
 				postSummary.Author = author.MapTo<PostsViewModel.PostSummary.UserDetails>();
 			}
 			return View("List", new PostsViewModel

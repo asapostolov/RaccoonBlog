@@ -21,9 +21,9 @@ namespace RaccoonBlog.Web.Infrastructure.Tasks
 
 		private readonly CommentInput commentInput;
 		private readonly RequestValues requestValues;
-		private readonly int postId;
+		private readonly string postId;
 
-		public AddCommentTask(CommentInput commentInput, RequestValues requestValues, int postId)
+		public AddCommentTask(CommentInput commentInput, RequestValues requestValues, string postId)
 		{
 			this.commentInput = commentInput;
 			this.requestValues = requestValues;
@@ -41,7 +41,7 @@ namespace RaccoonBlog.Web.Infrastructure.Tasks
 
 			var comment = new PostComments.Comment
 			              	{
-			              		Id = comments.GenerateNewCommentId(),
+			              		Id = comments.GenerateNewCommentId().ToString(),
 			              		Author = commentInput.Name,
 			              		Body = commentInput.Body,
 			              		CreatedAt = DateTimeOffset.Now,
@@ -58,9 +58,11 @@ namespace RaccoonBlog.Web.Infrastructure.Tasks
 
 			if (requestValues.IsAuthenticated == false && comment.IsSpam)
 			{
-				if (commenter.NumberOfSpamComments > 4)
-					return;
-				comments.Spam.Add(comment);
+				if (commenter.NumberOfSpamComments > 4) {
+                    return;
+                }
+
+                comments.Spam.Add(comment);
 			}
 			else
 			{
@@ -73,25 +75,28 @@ namespace RaccoonBlog.Web.Infrastructure.Tasks
 
 		private void SetCommenter(Commenter commenter, PostComments.Comment comment)
 		{
-			if (requestValues.IsAuthenticated)
-				return;
+			if (requestValues.IsAuthenticated) {
+                return;
+            }
 
-			commentInput.MapPropertiesToInstance(commenter);
+            commentInput.MapPropertiesToInstance(commenter);
 			commenter.IsTrustedCommenter = comment.IsSpam == false;
 
-			if (comment.IsSpam)
-				commenter.NumberOfSpamComments++;
+			if (comment.IsSpam) {
+                commenter.NumberOfSpamComments++;
+            }
 
-			DocumentSession.Store(commenter);
+            DocumentSession.Store(commenter);
 			comment.CommenterId = commenter.Id;
 		}
 
 		private void SendNewCommentEmail(Post post, PostComments.Comment comment, User postAuthor)
 		{
-			if (requestValues.IsAuthenticated)
-				return; // we don't send email for authenticated users
+			if (requestValues.IsAuthenticated) {
+                return; // we don't send email for authenticated users
+            }
 
-			var viewModel = comment.MapTo<NewCommentEmailViewModel>();
+            var viewModel = comment.MapTo<NewCommentEmailViewModel>();
 			viewModel.PostId = RavenIdResolver.Resolve(post.Id);
 			viewModel.PostTitle = HttpUtility.HtmlDecode(post.Title);
 			viewModel.PostSlug = SlugConverter.TitleToSlug(post.Title);

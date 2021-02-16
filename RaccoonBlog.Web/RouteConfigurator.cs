@@ -21,13 +21,20 @@ namespace RaccoonBlog.Web
 			routes.IgnoreRoute("{*favicon}", new { favicon = @"(.*/)?favicon.ico(/.*)?" });
 
 			Syndication();
+			
+			routes.MapRouteLowerCase("homepage",
+			   "",
+			   new { controller = "Posts", action = "Index" },
+			   new[] { "RaccoonBlog.Web.Controllers" }
+			   );
+			
+			Search();
+			Css();
 
 			Posts();
 			LegacyPost();
 			PostDetails();
 
-			Search();
-			Css();
 
 			routes.MapRouteLowerCase("Default",
 				"{controller}/{action}",
@@ -35,11 +42,6 @@ namespace RaccoonBlog.Web
 				new [] { "RaccoonBlog.Web.Controllers" }
 				);
 
-			routes.MapRouteLowerCase("homepage",
-			   "",
-			   new { controller = "Posts", action = "Index" },
-			   new[] { "RaccoonBlog.Web.Controllers" }
-			   );
 		}
 
 		private void Css()
@@ -119,14 +121,13 @@ namespace RaccoonBlog.Web
 			routes.MapRouteLowerCase("PostDetailsController-Comment",
 				"{id}/comment",
 				new { controller = "PostDetails", action = "Comment" },
-				new { httpMethod = new HttpMethodConstraint("POST"), id = MatchPositiveInteger },
+				new { httpMethod = new HttpMethodConstraint("POST"), id = "" },
 				new[] { "RaccoonBlog.Web.Controllers" }
 				);
 
 			routes.MapRouteLowerCase("PostDetailsController-Details",
 				"{id}/{slug}",
-				new { controller = "PostDetails", action = "Details", slug = UrlParameter.Optional },
-				new { id = MatchPositiveInteger },
+				new { controller = "PostDetails", action = "Details", slug = UrlParameter.Optional, id = "" },
 				new[] { "RaccoonBlog.Web.Controllers" }
 				);
 		}

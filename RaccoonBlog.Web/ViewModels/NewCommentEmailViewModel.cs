@@ -5,7 +5,7 @@ namespace RaccoonBlog.Web.ViewModels
 {
 	public class NewCommentEmailViewModel
 	{
-		public int Id { get; set; }
+		public string Id { get; set; }
 		public string Author { get; set; }
 		public string Url { get; set; }
 		public string Email { get; set; }
