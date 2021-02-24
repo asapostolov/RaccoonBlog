@@ -884,6 +884,9 @@
     <None Include="Content\js\ckeditor\ckeditor_php4.php" />
     <None Include="Content\js\ckeditor\ckeditor_php5.php" />
     <Content Include="NLog.config" />
+    <None Include="Properties\PublishProfiles\apo-web - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\apo-web - ReadOnly - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\apo-web - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\apostol-apostolov - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\apostol-apostolov - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\Production.pubxml" />
